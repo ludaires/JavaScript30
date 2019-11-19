@@ -58,6 +58,28 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
+    // get the key from the .key class to add the animation
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    if (!audio) return; //stop function to running all together
+     // add class to element with class .key playing when clicked to be able to start animation
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  };
+
+  function removeTransition(e) {
+    // we add the animation, but now we need to go back to normal after events finish.
+    if (e.propertyName !== 'transform') return;
+    this.classList.remove('playing')
+  };
+  
+  const keys = document.querySelectorAll('.key');
+  console.log(keys)
+  // listening to each key when the e happens
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound)
 
 </script>
 
